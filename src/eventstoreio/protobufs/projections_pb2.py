@@ -12,7 +12,7 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
-import shared_pb2 as shared__pb2
+from . import shared_pb2 as shared__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
