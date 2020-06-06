@@ -2,4 +2,3 @@ grpcio
 grpcio-tools
 pytest
 pytest-icdiff
--e src/

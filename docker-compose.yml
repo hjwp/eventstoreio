@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+
+  eventstore:
+    image: eventstore/eventstore:20.6.0-rc-buster-slim
+    entrypoint: /opt/eventstore/EventStore.ClusterNode --dev
+    environment:
+      EVENTSTORE_START_STANDARD_PROJECTIONS: "True"
+      EVENTSTORE_RUN_PROJECTIONS: All
+    ports:
+      - "11131:1113/udp"
+      - "21132:2113/tcp"
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/src
+      - ./tests:/tests
+    entrypoint: pytest /tests
+    depends_on:
+      - eventstore
