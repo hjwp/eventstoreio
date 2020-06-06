@@ -19,6 +19,7 @@ services:
     volumes:
       - ./src:/src
       - ./tests:/tests
+      - ./server_ca.pem:/server_ca.pem
     entrypoint: pytest /tests
     depends_on:
       - eventstore
