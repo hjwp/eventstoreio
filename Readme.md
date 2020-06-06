@@ -3,6 +3,27 @@
 a grpc client for eventstore based on grpcio
 
 
+## Running tests
+
+```sh
+make test
+# which runs
+# docker-compose build
+# docker-compose run tests
+```
+
+or, to run them locally
+
+```sh
+python3.8 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pip install -e /src
+pytest tests
+```
+
+
+
 ## Dev notes
 
 * initial pb2 creation:
