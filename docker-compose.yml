@@ -3,13 +3,13 @@ version: "3.7"
 services:
 
   eventstore:
-    image: eventstore/eventstore:20.6.0-rc-buster-slim
-    entrypoint: /opt/eventstore/EventStore.ClusterNode --dev
+    image: docker.pkg.github.com/eventstore/eventstore/eventstore:ci
     environment:
-      EVENTSTORE_START_STANDARD_PROJECTIONS: "True"
-      EVENTSTORE_RUN_PROJECTIONS: All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_DEV=true
     ports:
-      - "11131:1113/udp"
+      - "11131:1113/tcp"
       - "21132:2113/tcp"
 
   tests:
