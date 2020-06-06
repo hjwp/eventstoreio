@@ -5,6 +5,14 @@ a grpc client for eventstore based on grpcio
 
 ## Running tests
 
+first you will need to `docker login` to be able to get the nightlies docker
+image. more info at 
+https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages and
+https://help.github.com/en/packages/publishing-and-managing-packages/about-github-packages#about-tokens
+
+
+then:
+
 ```sh
 make test
 # which runs
