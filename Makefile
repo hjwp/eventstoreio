@@ -15,7 +15,10 @@ up:  ## bring containers up in the background
 server_ca.pem:
 	docker-compose run --entrypoint=cat eventstore /opt/eventstore/dev-ca/ca.pem > server_ca.pem
 
-test: server_ca.pem
+server_cert.pem:
+	docker-compose run --entrypoint=cat eventstore /opt/eventstore/dev-ca/server1.pem > server_cert.pem
+
+test: server_ca.pem server_cert.pem
 	docker-compose run --rm --no-deps tests
 
 clean:
