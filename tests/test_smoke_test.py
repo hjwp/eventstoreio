@@ -26,7 +26,6 @@ def test_tcp_port_is_open():
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         assert sock.connect_ex((HOST, TCP_PORT)) == 0
 
-@pytest.mark.xfail
 def test_smoke_test():
     print(f"connecting to {HOST}:{TCP_PORT}")
 
