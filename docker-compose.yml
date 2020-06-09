@@ -8,9 +8,14 @@ services:
       - EVENTSTORE_START_STANDARD_PROJECTIONS=true
       - EVENTSTORE_RUN_PROJECTIONS=All
       - EVENTSTORE_DEV=true
+      - EVENTSTORE_CERTIFICATE_FILE=/usr/certs/dev.crt
+      - EVENTSTORE_CERTIFICATE_PRIVATE_KEY_FILE=/usr/certs/dev.key
+      - EVENTSTORE_TRUSTED_ROOT_CERTIFICATES_PATH=/usr/certs
     ports:
       - "11131:1113/tcp"
       - "21132:2113/tcp"
+    volumes:
+      - ./certs:/usr/certs
 
   tests:
     build:
@@ -19,8 +24,6 @@ services:
     volumes:
       - ./src:/src
       - ./tests:/tests
-      - ./server_ca.pem:/server_ca.pem
-      - ./server_cert.pem:/server_cert.pem
     entrypoint: pytest /tests
     depends_on:
       - eventstore

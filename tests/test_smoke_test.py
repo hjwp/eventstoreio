@@ -4,6 +4,7 @@ from pathlib import Path
 
 import grpc
 import pytest
+import requests
 
 from eventstoreio.protobufs.streams_pb2_grpc import StreamsStub
 from eventstoreio.protobufs.streams_pb2 import ReadReq
@@ -26,16 +27,27 @@ def test_tcp_port_is_open():
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         assert sock.connect_ex((HOST, TCP_PORT)) == 0
 
+def test_cert_is_valid():
+    if not IN_CONTAINER:
+        os.environ["REQUESTS_CA_BUNDLE"] = "./certs/dev.crt"
+    r = requests.get(f"https://{HOST}:{HTTP_PORT}")
+    assert r.ok
+
+@pytest.mark.skip('wip')
 def test_smoke_test():
     print(f"connecting to {HOST}:{TCP_PORT}")
+    if IN_CONTAINER:
+        os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "./certs"
+    else:
+        os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "/certs"
 
-    # credentials = grpc.ssl_channel_credentials()
     # credentials = grpc.ssl_channel_credentials(root_certificates=Path('server_ca.pem').read_bytes())
-    credentials = grpc.ssl_channel_credentials(root_certificates=Path('server_cert.pem').read_bytes())
+    # credentials = grpc.ssl_channel_credentials(root_certificates=Path('server_cert.pem'# ).read_bytes())
+    credentials = grpc.ssl_channel_credentials()
 
-    # options=None
+    options=None
     # options = (('grpc.ssl_target_name_override', 'eventstoredb-node'),)
-    options = (('grpc.ssl_target_name_override', 'localhost'),)
+    # options = (('grpc.ssl_target_name_override', 'localhost'),)
 
 
     channel = grpc.secure_channel(f"{HOST}:{TCP_PORT}", credentials=credentials, options=options)
