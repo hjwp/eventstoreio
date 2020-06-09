@@ -37,5 +37,5 @@ openssl x509 \
     -CAcreateserial \
     -out certs/dev.crt \
     -days 10000 \
-    -extfile <(printf "subjectAltName = IP:127.0.0.1,DNS:localhost") \
+    -extfile <(printf "subjectAltName = IP:127.0.0.1,DNS:localhost,DNS:eventstore") \
     -sha256
