@@ -11,6 +11,7 @@ services:
       - EVENTSTORE_CERTIFICATE_FILE=/usr/certs/dev.crt
       - EVENTSTORE_CERTIFICATE_PRIVATE_KEY_FILE=/usr/certs/dev.key
       - EVENTSTORE_TRUSTED_ROOT_CERTIFICATES_PATH=/usr/certs
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
     ports:
       - "11131:1113/tcp"
       - "21132:2113/tcp"

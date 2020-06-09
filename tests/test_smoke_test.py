@@ -17,7 +17,7 @@ CERT_PATH = Path(('/' if IN_CONTAINER else '') + 'certs/dev.crt')
 
 # debugging ssl errors
 import os
-os.environ["GRPC_TRACE"] = "tcp,secure_endpoint,transport_security,tsi"
+os.environ["GRPC_TRACE"] = "secure_endpoint,tsi,tcp"
 os.environ["GRPC_VERBOSITY"] = "DEBUG"
 
 def test_http_port_is_open():
@@ -37,7 +37,7 @@ def test_cert_is_valid():
 def test_smoke_test():
     print(f"connecting to {HOST}:{TCP_PORT}")
     if IN_CONTAINER:
-        os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "./certs"
+        os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "./certs/dev.crt"
     else:
         os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "/certs"
 
@@ -49,7 +49,6 @@ def test_smoke_test():
         options = (('grpc.ssl_target_name_override', 'eventstore'),)
     else:
         options = (('grpc.ssl_target_name_override', 'localhost'),)
-
 
     channel = grpc.secure_channel(
         f"{HOST}:{TCP_PORT}", credentials=credentials, options=options
