@@ -1,6 +1,8 @@
 FROM python:3.8-slim-buster
 RUN apt-get update
 RUN apt install -yq \
+    build-essential \
+    python3-dev \
     curl \
     netcat
 

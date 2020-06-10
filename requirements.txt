@@ -1,4 +1,7 @@
-grpcio
+grpcio~=1.19.0
+# the above pinned bc:
+# https://github.com/grpc/grpc/issues/23172
+# https://stackoverflow.com/questions/57397723/grpc-client-failing-to-connect-to-server-with-tls-certificates
 grpcio-tools
 pytest
 pytest-icdiff
