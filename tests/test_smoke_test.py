@@ -9,6 +9,8 @@ import requests
 from eventstoreio.protobufs.streams_pb2_grpc import StreamsStub
 from eventstoreio.protobufs.streams_pb2 import ReadReq
 
+import eventstore_http_client
+
 IN_CONTAINER = Path('/src').exists()
 HOST = 'eventstore' if IN_CONTAINER  else 'localhost'
 HTTP_PORT = 2113 if IN_CONTAINER else 21132
@@ -18,7 +20,7 @@ CERT_PATH = Path(('/' if IN_CONTAINER else '') + 'certs/dev.crt')
 # debugging ssl errors
 import os
 os.environ["GRPC_TRACE"] = "secure_endpoint,tsi,tcp"
-os.environ["GRPC_VERBOSITY"] = "DEBUG"
+# os.environ["GRPC_VERBOSITY"] = "DEBUG"
 
 def test_http_port_is_open():
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
@@ -41,6 +43,7 @@ def test_smoke_test():
     else:
         os.environ["GRPC_DEFAULT_SSL_ROOTS_FILE_PATH"] = "/certs"
 
+    eventstore_http_client.publish_event('mystream', 'an_event_type', {})
 
     credentials = grpc.ssl_channel_credentials(
         root_certificates=CERT_PATH.read_bytes()
@@ -54,6 +57,6 @@ def test_smoke_test():
         f"{HOST}:{TCP_PORT}", credentials=credentials, options=options
     )
     stub = StreamsStub(channel)
-    request = ReadReq()
+    request = ReadReq(options='bob')
     response = stub.Read(request)
     assert list(response) == []
