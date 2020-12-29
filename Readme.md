@@ -1,6 +1,8 @@
 # Eventstoreio
 
-a grpc client for eventstore based on grpcio
+an attempt at a  grpc client for eventstore based on grpcio.
+
+current status:  not even remotely working.
 
 
 ## Running tests
